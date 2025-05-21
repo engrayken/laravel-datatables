@@ -76,7 +76,10 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $data = User::select(['id', 'name', 'email', 'created_at']);
-            return DataTables::of($data)->make(true);
+                          return DataTables::of($data)
+        ->editColumn('created_at', function ($row) {
+            return \Carbon\Carbon::parse($row->created_at)->format('Y-M-d H:i:a');
+        })
         }
     }
 }
